@@ -110,6 +110,9 @@
           continue;
 
         Live.getHead(url, function (url, newInfo) {
+          if (newInfo.status === 404) {
+            return;
+          }
           var oldInfo = resources[url],
               hasChanged = false;
           resources[url] = newInfo;
@@ -214,6 +217,7 @@
             if (h.toLowerCase() == "content-type" && value) value = value.replace(/^(.*?);.*?$/i, "$1");
             info[h] = value;
           }
+          info['status'] = xhr.status;
           callback(url, info);
         }
       }
